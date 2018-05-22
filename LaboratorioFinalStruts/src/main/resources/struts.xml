@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.custom.i18n.resources" value="global" />
+	<!-- para activar una interfaz de ayuda -->
+	<constant name="struts.devMode" value="false"></constant>
+
+
+
+	<package name="default" namespace="/" extends="struts-default,json-default">
+		<result-types>
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult"></result-type>
+		</result-types>
+
+		<interceptors>
+			<interceptor name="rangoHora"
+				class="pe.edu.cibertec.inteceptor.RangoHorarioInterceptor" />
+
+			<interceptor name="clearCache"
+				class="pe.edu.cibertec.inteceptor.ClearCacheInterceptor" />
+
+
+			<interceptor-stack name="horarioStack">
+				<interceptor-ref name="rangoHora" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+
+			<interceptor-stack name="SecurityCache">
+				<interceptor-ref name="clearCache" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="SecurityCache" />
+
+		<action name="inicio" class="pe.edu.cibertec.action.UsuarioAction"
+			method="inicio">
+			<result name="login">/pages/seguridad/login.jsp</result>
+		</action>
+
+		<action name="login" class="pe.edu.cibertec.action.UsuarioAction"
+			method="login">
+			<interceptor-ref name="horarioStack" />
+			<result name="success" type="tiles">d_principal</result>
+			<result name="login">/pages/seguridad/login.jsp</result>
+<!-- 			<result name="input">/pages/seguridad/login.jsp</result> -->
+			<result name="cerrado">/pages/seguridad/closed.jsp</result>
+		</action>
+
+		<action name="logout" class="pe.edu.cibertec.action.UsuarioAction"
+			method="logout">
+			<result name="login">/pages/seguridad/login.jsp</result>
+		</action>
+
+		<!-- listado de clientes -->
+		<action name="getListClientes" class="pe.edu.cibertec.action.ClienteAction"
+			method="listadoClientes">
+			<result type="tiles">d_listaCliente</result>
+		</action>
+
+		<!-- Evento ir pagina inicial -->
+		<action name="indexPageHome" class="pe.edu.cibertec.action.UsuarioAction"
+			method="goPageHome">
+			<result type="tiles">d_principal</result>
+		</action>
+
+
+		<action name="deleteConfirmClient" class="pe.edu.cibertec.action.ClienteAction"
+			method="eliminarCliente">
+			<result name="success">/pages/clientes/lista_clientes.jsp</result>
+		</action>
+
+
+		<action name="getReturnClient" class="pe.edu.cibertec.action.ClienteAction"
+			method="obtenerCliente">
+			<result name="success" type="json" />
+		</action>
+
+		<action name="updateClient" class="pe.edu.cibertec.action.ClienteAction"
+			method="updateClient">
+			<result name="input" type="redirectAction">getListClientes</result>
+			<result type="redirectAction">getListClientes</result>
+		</action>
+
+
+
+	</package>
+
+
+
+</struts>
+   
+   
+	

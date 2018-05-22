@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+       <tiles-definitions>
+       		<definition name="d_principal" template="/templates/template.jsp">
+       			<put-attribute name="header" value="/templates/fragments/header.jsp"/>
+       			<put-attribute name="naver" value="/templates/fragments/naver.jsp"/>
+       			<put-attribute name="footer" value="/templates/fragments/footer.jsp"/>
+       			<put-attribute name="body" value="/pages/principal.jsp"/>
+       		</definition>
+       		
+       		<definition name="d_listaCliente"  extends="d_principal">
+       			<put-attribute name="body"  value="/pages/clientes/lista_clientes.jsp"/>
+       		</definition>
+       
+       
+       
+       		<definition name="d_formCliente"  extends="d_principal">
+       			<put-attribute name="body"  value="/pages/clientes/form_clientes.jsp"/>
+       		</definition>
+       
+       
+       </tiles-definitions>
